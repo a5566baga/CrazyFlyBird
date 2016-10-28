@@ -1,0 +1,518 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B57D75D11DC3796100730408 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57D75D01DC3796100730408 /* AppDelegate.swift */; };
+		B57D75D31DC3796100730408 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B57D75D21DC3796100730408 /* GameScene.sks */; };
+		B57D75D51DC3796100730408 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57D75D41DC3796100730408 /* GameScene.swift */; };
+		B57D75D71DC3796100730408 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57D75D61DC3796100730408 /* GameViewController.swift */; };
+		B57D75DA1DC3796100730408 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57D75D81DC3796100730408 /* Main.storyboard */; };
+		B57D75DC1DC3796100730408 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57D75DB1DC3796100730408 /* Assets.xcassets */; };
+		B57D75DF1DC3796100730408 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57D75DD1DC3796100730408 /* LaunchScreen.storyboard */; };
+		B57D75EA1DC3796100730408 /* CrazyFlyBirdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57D75E91DC3796100730408 /* CrazyFlyBirdTests.swift */; };
+		B57D75F51DC3796100730408 /* CrazyFlyBirdUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57D75F41DC3796100730408 /* CrazyFlyBirdUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B57D75E61DC3796100730408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B57D75C51DC3796100730408 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B57D75CC1DC3796100730408;
+			remoteInfo = CrazyFlyBird;
+		};
+		B57D75F11DC3796100730408 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B57D75C51DC3796100730408 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B57D75CC1DC3796100730408;
+			remoteInfo = CrazyFlyBird;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B57D75CD1DC3796100730408 /* CrazyFlyBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrazyFlyBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57D75D01DC3796100730408 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B57D75D21DC3796100730408 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		B57D75D41DC3796100730408 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		B57D75D61DC3796100730408 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		B57D75D91DC3796100730408 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B57D75DB1DC3796100730408 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B57D75DE1DC3796100730408 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B57D75E01DC3796100730408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B57D75E51DC3796100730408 /* CrazyFlyBirdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrazyFlyBirdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57D75E91DC3796100730408 /* CrazyFlyBirdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrazyFlyBirdTests.swift; sourceTree = "<group>"; };
+		B57D75EB1DC3796100730408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B57D75F01DC3796100730408 /* CrazyFlyBirdUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrazyFlyBirdUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57D75F41DC3796100730408 /* CrazyFlyBirdUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrazyFlyBirdUITests.swift; sourceTree = "<group>"; };
+		B57D75F61DC3796100730408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B57D75CA1DC3796100730408 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75E21DC3796100730408 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75ED1DC3796100730408 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B57D75C41DC3796100730408 = {
+			isa = PBXGroup;
+			children = (
+				B57D75CF1DC3796100730408 /* CrazyFlyBird */,
+				B57D75E81DC3796100730408 /* CrazyFlyBirdTests */,
+				B57D75F31DC3796100730408 /* CrazyFlyBirdUITests */,
+				B57D75CE1DC3796100730408 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B57D75CE1DC3796100730408 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B57D75CD1DC3796100730408 /* CrazyFlyBird.app */,
+				B57D75E51DC3796100730408 /* CrazyFlyBirdTests.xctest */,
+				B57D75F01DC3796100730408 /* CrazyFlyBirdUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B57D75CF1DC3796100730408 /* CrazyFlyBird */ = {
+			isa = PBXGroup;
+			children = (
+				B57D75D01DC3796100730408 /* AppDelegate.swift */,
+				B57D75D21DC3796100730408 /* GameScene.sks */,
+				B57D75D41DC3796100730408 /* GameScene.swift */,
+				B57D75D61DC3796100730408 /* GameViewController.swift */,
+				B57D75D81DC3796100730408 /* Main.storyboard */,
+				B57D75DB1DC3796100730408 /* Assets.xcassets */,
+				B57D75DD1DC3796100730408 /* LaunchScreen.storyboard */,
+				B57D75E01DC3796100730408 /* Info.plist */,
+			);
+			path = CrazyFlyBird;
+			sourceTree = "<group>";
+		};
+		B57D75E81DC3796100730408 /* CrazyFlyBirdTests */ = {
+			isa = PBXGroup;
+			children = (
+				B57D75E91DC3796100730408 /* CrazyFlyBirdTests.swift */,
+				B57D75EB1DC3796100730408 /* Info.plist */,
+			);
+			path = CrazyFlyBirdTests;
+			sourceTree = "<group>";
+		};
+		B57D75F31DC3796100730408 /* CrazyFlyBirdUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B57D75F41DC3796100730408 /* CrazyFlyBirdUITests.swift */,
+				B57D75F61DC3796100730408 /* Info.plist */,
+			);
+			path = CrazyFlyBirdUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B57D75CC1DC3796100730408 /* CrazyFlyBird */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B57D75F91DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBird" */;
+			buildPhases = (
+				B57D75C91DC3796100730408 /* Sources */,
+				B57D75CA1DC3796100730408 /* Frameworks */,
+				B57D75CB1DC3796100730408 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CrazyFlyBird;
+			productName = CrazyFlyBird;
+			productReference = B57D75CD1DC3796100730408 /* CrazyFlyBird.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B57D75E41DC3796100730408 /* CrazyFlyBirdTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B57D75FC1DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBirdTests" */;
+			buildPhases = (
+				B57D75E11DC3796100730408 /* Sources */,
+				B57D75E21DC3796100730408 /* Frameworks */,
+				B57D75E31DC3796100730408 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B57D75E71DC3796100730408 /* PBXTargetDependency */,
+			);
+			name = CrazyFlyBirdTests;
+			productName = CrazyFlyBirdTests;
+			productReference = B57D75E51DC3796100730408 /* CrazyFlyBirdTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B57D75EF1DC3796100730408 /* CrazyFlyBirdUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B57D75FF1DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBirdUITests" */;
+			buildPhases = (
+				B57D75EC1DC3796100730408 /* Sources */,
+				B57D75ED1DC3796100730408 /* Frameworks */,
+				B57D75EE1DC3796100730408 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B57D75F21DC3796100730408 /* PBXTargetDependency */,
+			);
+			name = CrazyFlyBirdUITests;
+			productName = CrazyFlyBirdUITests;
+			productReference = B57D75F01DC3796100730408 /* CrazyFlyBirdUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B57D75C51DC3796100730408 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "张增强";
+				TargetAttributes = {
+					B57D75CC1DC3796100730408 = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = P28THB67HH;
+					};
+					B57D75E41DC3796100730408 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = B57D75CC1DC3796100730408;
+					};
+					B57D75EF1DC3796100730408 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = B57D75CC1DC3796100730408;
+					};
+				};
+			};
+			buildConfigurationList = B57D75C81DC3796100730408 /* Build configuration list for PBXProject "CrazyFlyBird" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B57D75C41DC3796100730408;
+			productRefGroup = B57D75CE1DC3796100730408 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B57D75CC1DC3796100730408 /* CrazyFlyBird */,
+				B57D75E41DC3796100730408 /* CrazyFlyBirdTests */,
+				B57D75EF1DC3796100730408 /* CrazyFlyBirdUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B57D75CB1DC3796100730408 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B57D75D31DC3796100730408 /* GameScene.sks in Resources */,
+				B57D75DF1DC3796100730408 /* LaunchScreen.storyboard in Resources */,
+				B57D75DC1DC3796100730408 /* Assets.xcassets in Resources */,
+				B57D75DA1DC3796100730408 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75E31DC3796100730408 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75EE1DC3796100730408 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B57D75C91DC3796100730408 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B57D75D51DC3796100730408 /* GameScene.swift in Sources */,
+				B57D75D71DC3796100730408 /* GameViewController.swift in Sources */,
+				B57D75D11DC3796100730408 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75E11DC3796100730408 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B57D75EA1DC3796100730408 /* CrazyFlyBirdTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57D75EC1DC3796100730408 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B57D75F51DC3796100730408 /* CrazyFlyBirdUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B57D75E71DC3796100730408 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B57D75CC1DC3796100730408 /* CrazyFlyBird */;
+			targetProxy = B57D75E61DC3796100730408 /* PBXContainerItemProxy */;
+		};
+		B57D75F21DC3796100730408 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B57D75CC1DC3796100730408 /* CrazyFlyBird */;
+			targetProxy = B57D75F11DC3796100730408 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B57D75D81DC3796100730408 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B57D75D91DC3796100730408 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B57D75DD1DC3796100730408 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B57D75DE1DC3796100730408 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B57D75F71DC3796100730408 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B57D75F81DC3796100730408 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B57D75FA1DC3796100730408 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = CrazyFlyBird/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBird;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B57D75FB1DC3796100730408 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = CrazyFlyBird/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBird;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B57D75FD1DC3796100730408 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = CrazyFlyBirdTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrazyFlyBird.app/CrazyFlyBird";
+			};
+			name = Debug;
+		};
+		B57D75FE1DC3796100730408 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CrazyFlyBirdTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrazyFlyBird.app/CrazyFlyBird";
+			};
+			name = Release;
+		};
+		B57D76001DC3796100730408 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = CrazyFlyBirdUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CrazyFlyBird;
+			};
+			name = Debug;
+		};
+		B57D76011DC3796100730408 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = CrazyFlyBirdUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CrazyFlyBird;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B57D75C81DC3796100730408 /* Build configuration list for PBXProject "CrazyFlyBird" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B57D75F71DC3796100730408 /* Debug */,
+				B57D75F81DC3796100730408 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B57D75F91DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBird" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B57D75FA1DC3796100730408 /* Debug */,
+				B57D75FB1DC3796100730408 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B57D75FC1DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBirdTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B57D75FD1DC3796100730408 /* Debug */,
+				B57D75FE1DC3796100730408 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B57D75FF1DC3796100730408 /* Build configuration list for PBXNativeTarget "CrazyFlyBirdUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B57D76001DC3796100730408 /* Debug */,
+				B57D76011DC3796100730408 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B57D75C51DC3796100730408 /* Project object */;
+}
