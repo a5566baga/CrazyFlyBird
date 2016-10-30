@@ -10,44 +10,22 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        if let scene = GameScene(fileNamed:"GameScene") {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            
-            skView.presentScene(scene)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if let sk视图 = self.view as? SKView  {
+            if sk视图.scene == nil {
+//                创建视图
+                let 长宽比 = sk视图.bounds.size.height / sk视图.bounds.size.width
+                let 场景 = GameScene(size: CGSize(width: 320, height: 320 * 长宽比))
+                sk视图.showsFPS = true //显示帧数
+                sk视图.showsPhysics = true //显示物理模型边框
+                sk视图.showsNodeCount = true //显示节点数
+                sk视图.ignoresSiblingOrder = true //忽略元素的添加顺序
+                场景.scaleMode = .AspectFill //场景的拉伸是等比例缩放
+                
+                sk视图.presentScene(场景) //添加到视图中
+            }
         }
-    }
-
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 }

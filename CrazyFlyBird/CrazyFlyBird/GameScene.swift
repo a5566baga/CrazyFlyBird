@@ -7,39 +7,257 @@
 //
 
 import SpriteKit
+import AVFoundation
+
+enum 图层:CGFloat {
+    case 背景
+    case 障碍物
+    case 前景
+    case 角色单位
+}
+
+struct 物理层 {
+    static let 无:UInt32 = 0
+    static let 游戏角色:UInt32 = 0b1 //1
+    static let 障碍物:UInt32 = 0b10 //2
+    static let 地面:UInt32 = 0b100 //4
+}
 
 class GameScene: SKScene {
+    
+//    添加音效
+    lazy var sounds = SoundManager()
+    
+//    鸟飞的速度和重力
+    let k重力:CGFloat = -1500.0
+    let k上冲速度:CGFloat = 400.0
+    var 速度 = CGPoint.zero
+    
+//    底部障碍的倍数
+    let k底部障碍的最小乘数:CGFloat = 0.1
+    let k底部障碍的最大乘数:CGFloat = 0.6
+    let k缺口乘数:CGFloat = 3.5
+    let k首次生成障碍延时:NSTimeInterval = 1.75
+    let k每次生成障碍延时:NSTimeInterval = 1.5
+
+//    前景页面的移动
+    let k前景页面数 = 2
+    let k地面移动速度:CGFloat = -150.0
+    
+//    基本单位
+    let 世界单位 = SKNode()
+    var 游戏区域起始点:CGFloat = 0
+    var 游戏区域的高度:CGFloat = 0
+    let 主角 = SKSpriteNode(imageNamed: "Bird0")
+    let 帽子 = SKSpriteNode(imageNamed: "Sombrero")
+    
+    var 上一次更新时间:NSTimeInterval = 0
+    var dt:NSTimeInterval = 0
+    
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+       
+//        关掉重力
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
-        self.addChild(myLabel)
+        addChild(世界单位)
+        设置背景()
+        设置前景()
+        设置主角()
+        addChild(sounds)
+//        生成障碍()
+        无限重生障碍()
+        设置帽子()
+        
+    }
+//    MARK: 设置内容相关
+    
+    func 设置音效() -> Void {
+        sounds.playFlap()
+    }
+    
+    func 设置背景() -> Void {
+        let 背景 = SKSpriteNode(imageNamed: "Background")
+        背景.anchorPoint = CGPoint(x: 0.5, y: 1)
+        背景.position = CGPoint(x: size.width/2, y: size.height)
+        背景.zPosition = 图层.背景.rawValue
+        游戏区域起始点 = size.height - 背景.size.height
+        游戏区域的高度 = 背景.size.height
+        世界单位.addChild(背景)
+        
+        let 左下 = CGPoint(x: 0, y: 游戏区域起始点)
+        let 右下 = CGPoint(x: size.width, y: 游戏区域起始点)
+        self.physicsBody = SKPhysicsBody(edgeFromPoint: 左下, toPoint: 右下)
+        self.physicsBody?.categoryBitMask = 物理层.地面
+        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody?.contactTestBitMask = 物理层.游戏角色
+        
+    }
+    
+    func 设置主角() -> Void {
+        主角.position = CGPoint(x: size.width*0.2, y: size.height*0.4+游戏区域起始点)
+        主角.zPosition = 图层.前景.rawValue
+        
+        let offsetX = 主角.size.width * 主角.anchorPoint.x
+        let offsetY = 主角.size.height * 主角.anchorPoint.y
+        
+        let path = CGPathCreateMutable()
+        
+        CGPathMoveToPoint(path, nil, 23 - offsetX, 30 - offsetY);
+        CGPathAddLineToPoint(path, nil, 33 - offsetX, 30 - offsetY);
+        CGPathAddLineToPoint(path, nil, 35 - offsetX, 30 - offsetY);
+        CGPathAddLineToPoint(path, nil, 36 - offsetX, 28 - offsetY);
+        CGPathAddLineToPoint(path, nil, 39 - offsetX, 23 - offsetY);
+        CGPathAddLineToPoint(path, nil, 39 - offsetX, 19 - offsetY);
+        CGPathAddLineToPoint(path, nil, 40 - offsetX, 7 - offsetY);
+        CGPathAddLineToPoint(path, nil, 40 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, nil, 39 - offsetX, 2 - offsetY);
+        CGPathAddLineToPoint(path, nil, 38 - offsetX, 1 - offsetY);
+        CGPathAddLineToPoint(path, nil, 20 - offsetX, 1 - offsetY);
+        CGPathAddLineToPoint(path, nil, 8 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, nil, 3 - offsetX, 8 - offsetY);
+        CGPathAddLineToPoint(path, nil, 1 - offsetX, 10 - offsetY);
+        CGPathAddLineToPoint(path, nil, 0 - offsetX, 15 - offsetY);
+        CGPathAddLineToPoint(path, nil, 0 - offsetX, 21 - offsetY);
+        CGPathAddLineToPoint(path, nil, 1 - offsetX, 23 - offsetY);
+        
+        CGPathCloseSubpath(path)
+        
+        主角.physicsBody = SKPhysicsBody(polygonFromPath: path)
+        
+        主角.physicsBody?.categoryBitMask = 物理层.游戏角色
+        主角.physicsBody?.collisionBitMask = 0
+        主角.physicsBody?.contactTestBitMask = 物理层.地面 | 物理层.障碍物
+        
+        世界单位.addChild(主角)
+    }
+    
+    func 设置帽子() -> Void {
+        帽子.position = CGPoint(x: 25 - 帽子.size.width/2, y: 29 - 帽子.size.height/2)
+        主角.addChild(帽子)
+    }
+    
+    func 设置前景() -> Void {
+        for i in 0..<k前景页面数 {
+            let 前景 = SKSpriteNode(imageNamed: "Ground")
+            前景.anchorPoint = CGPoint(x: 0, y: 1.0)
+            前景.position = CGPoint(x: CGFloat(i) * 前景.size.width, y: 游戏区域起始点)
+            前景.zPosition = 图层.前景.rawValue
+            前景.name = "前景"
+            世界单位.addChild(前景)
+        }
+    }
+    
+//    MARK:游戏开玩
+    func 主角飞一下() -> Void {
+        速度 = CGPoint(x: 0, y: k上冲速度)
+        设置音效()
+    }
+    
+    func 无限重生障碍() -> Void {
+        let 首次延迟 = SKAction.waitForDuration(k首次生成障碍延时)
+        let 重生障碍 = SKAction.runBlock(生成障碍)
+        let 每次的重生间隔 = SKAction.waitForDuration(k每次生成障碍延时)
+        let 重生的动作队列 = SKAction.sequence([重生障碍, 每次的重生间隔])
+        let 无限重生 = SKAction.repeatActionForever(重生的动作队列)
+        let 总的队列 = SKAction.sequence([首次延迟, 无限重生])
+        runAction(总的队列)
+    }
+    
+    func 创建障碍物(图片名:String) -> SKSpriteNode {
+        let 障碍物 = SKSpriteNode(imageNamed: 图片名);
+        障碍物.zPosition = 图层.障碍物.rawValue
+        
+        let offsetX = 障碍物.size.width * 障碍物.anchorPoint.x
+        let offsetY = 障碍物.size.height * 障碍物.anchorPoint.y
+        
+        let path = CGPathCreateMutable()
+        
+        CGPathMoveToPoint(path, nil, 6 - offsetX, 1 - offsetY)
+        CGPathAddLineToPoint(path, nil, 7 - offsetX, 311 - offsetY)
+        CGPathAddLineToPoint(path, nil, 48 - offsetX, 311 - offsetY)
+        CGPathAddLineToPoint(path, nil, 46 - offsetX, 1 - offsetY)
+        
+        CGPathCloseSubpath(path)
+        
+        障碍物.physicsBody = SKPhysicsBody(polygonFromPath: path)
+        障碍物.physicsBody?.categoryBitMask = 物理层.障碍物
+        障碍物.physicsBody?.collisionBitMask = 0
+        障碍物.physicsBody?.contactTestBitMask = 物理层.游戏角色
+        
+        
+        return 障碍物
+    }
+    
+    func 生成障碍() -> Void {
+        let 底部障碍 = 创建障碍物("CactusBottom")
+        let 起始X坐标 = self.size.width + 底部障碍.size.width/2
+        
+        let Y坐标最小值 = (游戏区域起始点 - 底部障碍.size.height/2) + 游戏区域的高度 * k底部障碍的最小乘数
+        let Y坐标最大值 = (游戏区域起始点 - 底部障碍.size.height/2) + 游戏区域的高度 * k底部障碍的最大乘数
+        
+        底部障碍.position = CGPointMake(起始X坐标, CGFloat.random(min: Y坐标最小值, max: Y坐标最大值))
+        世界单位.addChild(底部障碍)
+        
+        let 顶部障碍 = 创建障碍物("CactusTop")
+        顶部障碍.zRotation = CGFloat(180).degreesToRadians()
+        顶部障碍.position = CGPoint(x: 起始X坐标, y: 底部障碍.position.y + 底部障碍.size.height/2 + 顶部障碍.size.height/2 + 主角.size.height * k缺口乘数)
+        世界单位.addChild(顶部障碍)
+        
+        let X移动距离 = -(size.width + 底部障碍.size.width)
+        let 移动持续时间 = X移动距离 / k地面移动速度
+        let 移动的队列 = SKAction.sequence([
+            SKAction.moveByX(X移动距离, y: 0, duration: NSTimeInterval(移动持续时间)),
+            SKAction.removeFromParent()
+            ])
+        
+        底部障碍.runAction(移动的队列)
+        顶部障碍.runAction(移动的队列)
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+       主角飞一下()
+//        移动帽子
+        let 向上移动 = SKAction.moveByX(0, y: 10, duration: 0.15)
+        向上移动.timingMode = .EaseInEaseOut
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
+        let 向下移动 = 向上移动.reversedAction()
+        帽子.runAction(SKAction.sequence([向上移动, 向下移动]))
+        
+    }
+    
+    
+//   每一帧都会调用
+    override func update(currentTime: CFTimeInterval) {
+        if 上一次更新时间 > 0 {
+            dt = currentTime - 上一次更新时间
+        }else{
+            dt = 0
+        }
+        上一次更新时间 = currentTime
+        
+        更新主角()
+        更新前景()
+    }
+    func 更新主角() -> Void {
+        let 加速度 = CGPoint(x: 0, y: k重力)
+        速度 = 速度 + 加速度 * CGFloat(dt)
+        主角.position = 主角.position + 速度 * CGFloat(dt)
+//        让主角停在地面上
+        if 主角.position.y - 主角.size.height/2 < 游戏区域起始点 {
+            主角.position = CGPoint(x: 主角.position.x, y: 主角.size.height/2 + 游戏区域起始点)
         }
     }
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+    func 更新前景() -> Void {
+        世界单位.enumerateChildNodesWithName("前景") {匹配单位, _ in
+            if let 前景 = 匹配单位 as? SKSpriteNode{
+                let 地面移动速度 = CGPoint(x: self.k地面移动速度, y: 0)
+                前景.position += 地面移动速度 * CGFloat(self.dt)
+                
+                if 前景.position.x < -前景.size.width{
+                    前景.position += CGPoint(x: 前景.size.width * CGFloat(self.k前景页面数), y: 0)
+                }
+            }
+        }
     }
 }
