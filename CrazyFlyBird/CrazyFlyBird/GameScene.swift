@@ -59,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var 得分标签:SKLabelNode!
     var 当前分数:Int = 0
     let k延迟时间 = 0.3
-    
+    let k角色动画总帧数 = 4
     
 
 //    前景页面的移动
@@ -84,16 +84,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         addChild(世界单位)
-        设置背景()
-        设置前景()
-        设置主角()
         addChild(sounds)
-//        生成障碍()
-        无限重生障碍()
-        设置帽子()
-        设置得分标签()
+//        切换到教程状态()
+        切换到主菜单()
     }
 //    MARK: 设置内容相关
+    func 设置主菜单() -> Void {
+//        logo
+        let logo = SKSpriteNode(imageNamed: "Logo")
+        logo.position = CGPoint(x: size.width/2, y: size.height * 0.8)
+        logo.zPosition = 图层.UI.rawValue
+        logo.name = "主菜单"
+        世界单位.addChild(logo)
+        
+//        开始游戏按钮
+        let 开始游戏按钮 = SKSpriteNode(imageNamed: "Button")
+        开始游戏按钮.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        开始游戏按钮.zPosition = 图层.UI.rawValue
+        开始游戏按钮.name = "主菜单"
+        世界单位.addChild(开始游戏按钮)
+        
+        let 游戏 = SKSpriteNode(imageNamed: "Play")
+        游戏.position = CGPoint.zero
+        开始游戏按钮.addChild(游戏)
+        
+    }
+    
+    func 设置教程() -> Void{
+        let 教程 = SKSpriteNode(imageNamed: "Tutorial")
+        教程.position = CGPoint(x: size.width/2, y: 游戏区域的高度*0.4 + 游戏区域起始点)
+        教程.zPosition = 图层.UI.rawValue
+        教程.name = "教程"
+        世界单位.addChild(教程)
+        
+        let 准备 = SKSpriteNode(imageNamed: "Ready")
+        准备.position = CGPoint(x: size.width/2, y: 游戏区域的高度*0.7 + 游戏区域起始点)
+        准备.zPosition = 图层.UI.rawValue
+        准备.name = "教程"
+        世界单位.addChild(准备)
+        
+//        MARK: 让主角能起飞状态
+        let 向上移动 = SKAction.moveByX(0, y: 50, duration: 0.5)
+        向上移动.timingMode = .EaseInEaseOut
+        let 向下移动 = 向上移动.reversedAction()
+        
+        主角.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            向上移动,
+            向下移动
+            ])), withKey: "起飞")
+        var 角色贴图组: Array<SKTexture> = []
+        
+        for i in 0..<k角色动画总帧数 {
+            角色贴图组.append(SKTexture(imageNamed: "Bird\(i)"))
+        }
+        
+        for i in (k角色动画总帧数-1).stride(through: 0, by: -1) {
+            角色贴图组.append(SKTexture(imageNamed: "Bird\(i)"))
+        }
+        
+        let 扇动翅膀的动画 = SKAction.animateWithTextures(角色贴图组, timePerFrame: 0.07)
+        主角.runAction(SKAction.repeatActionForever(扇动翅膀的动画))
+        
+    }
     
     func 设置音效() -> Void {
         sounds.playFlap()
@@ -191,6 +243,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let 向下移动 = 向上移动.reversedAction()
         帽子.runAction(SKAction.sequence([向上移动, 向下移动]))
+        
+        
     }
     
     func 创建障碍物(图片名:String) -> SKSpriteNode {
@@ -269,10 +323,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
 //        print("\(当前游戏状态)")
+        guard let 点击 = touches.first else{
+            return
+        }
+        let 点击位置 = 点击.locationInNode(self)
+        
         switch 当前游戏状态 {
         case .主菜单:
+            if 点击位置.y > size.height * 0.4 || 点击位置.y < size.height * 0.6 {
+                切换到教程状态()
+            }
             break
         case .教程:
+            切换到游戏状态()
             break
         case .显示分数:
             break
@@ -280,7 +343,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             主角飞一下()
             break
         case .结束:
-            切换到新游戏()
+            if 点击位置.x < size.width/2 {
+                切换到新游戏()
+            }
             break
         case .跌落:
             break
@@ -300,14 +365,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        更新主角()
 //        更新前景()
 //        撞击障碍物检查()
-        print("\(当前游戏状态)")
+//        print("\(当前游戏状态)")
         switch 当前游戏状态 {
         case .主菜单:
+            设置主菜单()
             break
         case .教程:
             break
         case .显示分数:
-            
             break
         case .游戏:
             更新主角()
@@ -324,6 +389,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             break
         }
     }
+    
+
     func 更新主角() -> Void {
         let 加速度 = CGPoint(x: 0, y: k重力)
         速度 = 速度 + 加速度 * CGFloat(dt)
@@ -384,6 +451,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
 //    MARK: 游戏状态方法
+    func 切换到主菜单() -> Void {
+        当前游戏状态 = .主菜单
+        设置背景()
+        设置前景()
+        设置主角()
+        设置帽子()
+        设置主菜单()
+    }
+    
+    func 切换到教程状态() -> Void {
+        当前游戏状态 = .教程
+        世界单位.enumerateChildNodesWithName("主菜单", usingBlock: {
+            匹配单位, _ in
+            匹配单位.runAction(SKAction.sequence([
+                SKAction.fadeInWithDuration(0.05),
+                SKAction.removeFromParent()
+                ]))
+        })
+        设置得分标签()
+        设置教程()
+    }
+    
+    func 切换到游戏状态() -> Void {
+        当前游戏状态 = .游戏
+        世界单位.enumerateChildNodesWithName("教程", usingBlock: {
+            匹配单位, _ in
+            匹配单位.runAction(SKAction.sequence([
+                SKAction.fadeInWithDuration(0.05),
+                SKAction.removeFromParent()
+                ]))
+        })
+        主角.removeActionForKey("起飞")
+        无限重生障碍()
+        主角飞一下()
+    }
+    
     func 切换到新游戏() -> Void {
         runAction(sounds.popAct)
         let 新的游戏场景 = GameScene.init(size: size)
@@ -519,5 +622,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             撞击了障碍物 = true
         }
         
+    }
+    
+//    MARK:跳转到个人Git部分
+    func 网页() -> Void {
+        let net = NSURL(string: "https://github.com/a5566baga/CrazyFlyBird")
+        UIApplication.sharedApplication().openURL(net!)
     }
 }
