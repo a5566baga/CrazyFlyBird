@@ -14,6 +14,7 @@ enum 图层:CGFloat {
     case 障碍物
     case 前景
     case 角色单位
+    case UI
 }
 
 struct 物理层 {
@@ -52,6 +53,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var 撞击了障碍物 = false
     var 当前游戏状态:游戏状态 = .游戏
     
+//    游戏分数
+    let k顶部留白:CGFloat = 20.0
+    let k字体名字 = "AmericanTypewriter-Bold"
+    var 得分标签:SKLabelNode!
+    var 当前分数:Int = 0
     
 
 //    前景页面的移动
@@ -68,6 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var 上一次更新时间:NSTimeInterval = 0
     var dt:NSTimeInterval = 0
     
+//    MARK:初始视图
     override func didMoveToView(view: SKView) {
        
 //        关掉重力
@@ -82,7 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        生成障碍()
         无限重生障碍()
         设置帽子()
-        
+        设置得分标签()
     }
 //    MARK: 设置内容相关
     
@@ -151,6 +158,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         主角.addChild(帽子)
     }
     
+    func 设置得分标签() -> Void {
+        得分标签 = SKLabelNode(fontNamed: k字体名字)
+        得分标签.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        得分标签.position = CGPoint(x: size.width/2, y: size.height - k顶部留白)
+        得分标签.verticalAlignmentMode = .Top
+        得分标签.text = "0"
+        得分标签.zPosition = 图层.UI.rawValue
+        世界单位.addChild(得分标签)
+    }
+    
     func 设置前景() -> Void {
         for i in 0..<k前景页面数 {
             let 前景 = SKSpriteNode(imageNamed: "Ground")
@@ -177,6 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func 创建障碍物(图片名:String) -> SKSpriteNode {
         let 障碍物 = SKSpriteNode(imageNamed: 图片名);
         障碍物.zPosition = 图层.障碍物.rawValue
+        障碍物.userData = NSMutableDictionary()
         
         let offsetX = 障碍物.size.width * 障碍物.anchorPoint.x
         let offsetY = 障碍物.size.height * 障碍物.anchorPoint.y
@@ -294,6 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             更新前景()
             撞击障碍物检查()
             撞击地面检查()
+            更新得分()
             break
         case .结束:
             break
@@ -341,6 +360,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             runAction(sounds.hitAct)
             切换到跌落状态()
         }
+    }
+    
+    func 更新得分() -> Void {
+        世界单位.enumerateChildNodesWithName("顶部障碍", usingBlock: { 匹配单位, _ in
+            if let 障碍物 = 匹配单位 as? SKSpriteNode{
+                if let 已通过 = 障碍物.userData?["已通过"] as? NSNumber{
+                    if 已通过.boolValue{
+                        return
+                    }
+                }
+                if self.主角.position.x > 障碍物.position.x + 障碍物.size.width/2{
+                    self.当前分数 += 1
+                    self.得分标签.text = "\(self.当前分数)"
+                    self.runAction(self.sounds.coinAct)
+                    障碍物.userData?["已通过"] = NSNumber(bool: true)
+                }
+            }
+        })
     }
     
     
