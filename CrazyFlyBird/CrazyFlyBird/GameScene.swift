@@ -58,6 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let k字体名字 = "AmericanTypewriter-Bold"
     var 得分标签:SKLabelNode!
     var 当前分数:Int = 0
+    let k延迟时间 = 0.3
+    
     
 
 //    前景页面的移动
@@ -266,7 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
+//        print("\(当前游戏状态)")
         switch 当前游戏状态 {
         case .主菜单:
             break
@@ -278,13 +280,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             主角飞一下()
             break
         case .结束:
+            切换到新游戏()
             break
         case .跌落:
             break
         }
-        
-
-        
     }
     
     
@@ -300,12 +300,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        更新主角()
 //        更新前景()
 //        撞击障碍物检查()
+        print("\(当前游戏状态)")
         switch 当前游戏状态 {
         case .主菜单:
             break
         case .教程:
             break
         case .显示分数:
+            
             break
         case .游戏:
             更新主角()
@@ -358,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             主角.zRotation = CGFloat(-60).degreesToRadians()
             主角.position = CGPoint(x: 主角.position.x, y: 游戏区域起始点 + 主角.size.width*0.5)
             runAction(sounds.hitAct)
-            切换到跌落状态()
+            切换到显示分数状态()
         }
     }
     
@@ -382,6 +384,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
 //    MARK: 游戏状态方法
+    func 切换到新游戏() -> Void {
+        runAction(sounds.popAct)
+        let 新的游戏场景 = GameScene.init(size: size)
+        let 切换特效 = SKTransition.fadeWithColor(SKColor.blackColor(), duration: 0.05)
+        view?.presentScene(新的游戏场景, transition: 切换特效)
+    }
+    
     func 切换到跌落状态() ->  Void{
         当前游戏状态 = .跌落
         runAction(SKAction.sequence([sounds.dingAct,
@@ -390,10 +399,114 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         停止生成障碍()
     }
     
-    func 显示分数状态() -> Void {
+    func 切换到显示分数状态() -> Void {
         当前游戏状态 = .显示分数
         主角.removeAllActions()
         停止生成障碍()
+        设置计分板()
+    }
+    
+    func 切换游戏状态() -> Void {
+        当前游戏状态 = .结束
+    }
+    
+//    MARK:分数处理
+    func 最高分() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey("最高分")
+    }
+    func 设置最高分(最高分:Int) -> Void {
+        NSUserDefaults.standardUserDefaults().setInteger(最高分, forKey: "最高分")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    func 设置计分板() -> Void {
+//        print("\(最高分())")
+        if 当前分数 > 最高分() {
+            设置最高分(当前分数)
+        }
+        let 计分板 = SKSpriteNode(imageNamed: "Scorecard")
+        计分板.position = CGPoint(x: size.width/2, y: size.height/2)
+        计分板.zPosition = 图层.UI.rawValue
+        世界单位.addChild(计分板)
+        
+        let 当前分数标签 = SKLabelNode(fontNamed: k字体名字)
+        当前分数标签.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        当前分数标签.position = CGPoint(x: -计分板.size.width/4, y: -计分板.size.height/3)
+        当前分数标签.text = "\(当前分数)"
+        当前分数标签.zPosition = 图层.UI.rawValue
+        计分板.addChild(当前分数标签)
+        
+        let 对高分标签 = SKLabelNode(fontNamed: k字体名字)
+        对高分标签.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        对高分标签.position = CGPoint(x: 计分板.size.width/4, y: -计分板.size.height/3)
+        对高分标签.text = "\(最高分())"
+        对高分标签.zPosition = 图层.UI.rawValue
+        计分板.addChild(对高分标签)
+        
+        let 游戏结束 = SKSpriteNode(imageNamed: "GameOver")
+        游戏结束.position = CGPoint(x: size.width/2, y: size.height/2 + 计分板.size.height/2 + 2*k顶部留白 + 游戏结束.size.height/2)
+        游戏结束.zPosition = 图层.UI.rawValue
+        世界单位.addChild(游戏结束)
+        
+        let ok按钮 = SKSpriteNode(imageNamed: "Button")
+        ok按钮.position = CGPoint(x: size.width/4, y: size.height/2 - 计分板.size.height/2 - k顶部留白 - ok按钮.size.width/2)
+        ok按钮.zPosition = 图层.UI.rawValue
+        世界单位.addChild(ok按钮)
+        
+        let OK = SKSpriteNode(imageNamed: "OK")
+        OK.position = CGPoint.zero
+        OK.zPosition = 图层.UI.rawValue
+        ok按钮.addChild(OK)
+        
+        let 分享按钮 = SKSpriteNode(imageNamed: "ButtonRight")
+        分享按钮.position = CGPoint(x: size.width/4*3, y: size.height/2 - 计分板.size.height/2 - k顶部留白 - ok按钮.size.width/2)
+        分享按钮.zPosition = 图层.UI.rawValue
+        世界单位.addChild(分享按钮)
+        
+        let 分享 = SKSpriteNode(imageNamed: "Share")
+        分享.position = CGPoint.zero
+        分享.zPosition = 图层.UI.rawValue
+        分享按钮.addChild(分享)
+        
+        游戏结束.setScale(0)
+        游戏结束.alpha = 0
+        let 动画组 = SKAction.group([
+            SKAction.fadeInWithDuration(k延迟时间),
+            SKAction.scaleTo(1.0, duration: k延迟时间)
+            ])
+        动画组.timingMode = .EaseInEaseOut
+        游戏结束.runAction(SKAction.sequence([
+            SKAction.waitForDuration(k延迟时间),
+            动画组
+            ]))
+        
+        计分板.position = CGPoint(x: size.width/2, y: -计分板.size.height/2)
+        let 向上移动画 = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: k延迟时间)
+        向上移动画.timingMode = .EaseInEaseOut
+        计分板.runAction(SKAction.sequence([
+            SKAction.waitForDuration(k延迟时间 * 2),
+            向上移动画
+            ]))
+        
+        ok按钮.alpha = 0
+        分享按钮.alpha = 0
+        let 渐变动画 = SKAction.sequence([
+            SKAction.waitForDuration(k延迟时间 * 3),
+            SKAction.fadeInWithDuration(k延迟时间)
+            ])
+        ok按钮.runAction(渐变动画)
+        分享按钮.runAction(渐变动画)
+        
+        let 声音特效 = SKAction.sequence([
+            SKAction.waitForDuration(k延迟时间),
+            sounds.popAct,
+            SKAction.waitForDuration(k延迟时间),
+            sounds.popAct,
+            SKAction.waitForDuration(k延迟时间),
+            sounds.popAct,
+            SKAction.runBlock(切换游戏状态)
+            ])
+        
+        runAction(声音特效)
     }
     
 //    碰撞处理
