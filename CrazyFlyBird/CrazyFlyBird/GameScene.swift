@@ -461,6 +461,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func 切换到教程状态() -> Void {
+        runAction(sounds.popAct)
         当前游戏状态 = .教程
         世界单位.enumerateChildNodesWithName("主菜单", usingBlock: {
             匹配单位, _ in
