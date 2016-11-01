@@ -18,9 +18,9 @@ class GameViewController: UIViewController {
 //                创建视图
                 let 长宽比 = sk视图.bounds.size.height / sk视图.bounds.size.width
                 let 场景 = GameScene(size: CGSize(width: 320, height: 320 * 长宽比))
-                sk视图.showsFPS = true //显示帧数
-                sk视图.showsPhysics = true //显示物理模型边框
-                sk视图.showsNodeCount = true //显示节点数
+                sk视图.showsFPS = false //显示帧数
+                sk视图.showsPhysics = false //显示物理模型边框
+                sk视图.showsNodeCount = false //显示节点数
                 sk视图.ignoresSiblingOrder = true //忽略元素的添加顺序
                 场景.scaleMode = .AspectFill //场景的拉伸是等比例缩放
                 

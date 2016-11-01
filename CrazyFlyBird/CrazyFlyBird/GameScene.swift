@@ -106,6 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let 游戏 = SKSpriteNode(imageNamed: "Play")
         游戏.position = CGPoint.zero
+        游戏.zPosition = 图层.UI.rawValue
         开始游戏按钮.addChild(游戏)
         
     }
