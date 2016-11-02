@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		B54A1A361DC44DFF00E964CA /* backgrounds.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B54A1A1C1DC44DFF00E964CA /* backgrounds.atlas */; };
 		B54A1A371DC44DFF00E964CA /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = B54A1A1D1DC44DFF00E964CA /* sprites.atlas */; };
-		B54A1A381DC44DFF00E964CA /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = B54A1A1F1DC44DFF00E964CA /* icon_120.png */; };
-		B54A1A391DC44DFF00E964CA /* icon_180.png in Resources */ = {isa = PBXBuildFile; fileRef = B54A1A201DC44DFF00E964CA /* icon_180.png */; };
 		B54A1A3A1DC44DFF00E964CA /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A1A221DC44DFF00E964CA /* CGFloat+Extensions.swift */; };
 		B54A1A3B1DC44DFF00E964CA /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A1A231DC44DFF00E964CA /* CGPoint+Extensions.swift */; };
 		B54A1A3C1DC44DFF00E964CA /* CGVector+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A1A241DC44DFF00E964CA /* CGVector+Extensions.swift */; };
@@ -61,8 +59,6 @@
 /* Begin PBXFileReference section */
 		B54A1A1C1DC44DFF00E964CA /* backgrounds.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = backgrounds.atlas; sourceTree = "<group>"; };
 		B54A1A1D1DC44DFF00E964CA /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
-		B54A1A1F1DC44DFF00E964CA /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
-		B54A1A201DC44DFF00E964CA /* icon_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_180.png; sourceTree = "<group>"; };
 		B54A1A221DC44DFF00E964CA /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		B54A1A231DC44DFF00E964CA /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		B54A1A241DC44DFF00E964CA /* CGVector+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGVector+Extensions.swift"; sourceTree = "<group>"; };
@@ -128,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				B54A1A1B1DC44DFF00E964CA /* Art */,
-				B54A1A1E1DC44DFF00E964CA /* Icons */,
 				B54A1A211DC44DFF00E964CA /* SKTUtils */,
 				B54A1A2E1DC44DFF00E964CA /* Sounds */,
 			);
@@ -142,15 +137,6 @@
 				B54A1A1D1DC44DFF00E964CA /* sprites.atlas */,
 			);
 			path = Art;
-			sourceTree = "<group>";
-		};
-		B54A1A1E1DC44DFF00E964CA /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				B54A1A1F1DC44DFF00E964CA /* icon_120.png */,
-				B54A1A201DC44DFF00E964CA /* icon_180.png */,
-			);
-			path = Icons;
 			sourceTree = "<group>";
 		};
 		B54A1A211DC44DFF00E964CA /* SKTUtils */ = {
@@ -309,13 +295,16 @@
 					B57D75CC1DC3796100730408 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = P28THB67HH;
+						LastSwiftMigration = 0810;
 					};
 					B57D75E41DC3796100730408 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0810;
 						TestTargetID = B57D75CC1DC3796100730408;
 					};
 					B57D75EF1DC3796100730408 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0810;
 						TestTargetID = B57D75CC1DC3796100730408;
 					};
 				};
@@ -351,14 +340,12 @@
 				B57D75DC1DC3796100730408 /* Assets.xcassets in Resources */,
 				B57D75DA1DC3796100730408 /* Main.storyboard in Resources */,
 				B54A1A4C1DC44DFF00E964CA /* whack.wav in Resources */,
-				B54A1A381DC44DFF00E964CA /* icon_120.png in Resources */,
 				B54A1A491DC44DFF00E964CA /* flapping.wav in Resources */,
 				B54A1A461DC44DFF00E964CA /* coin.wav in Resources */,
 				B54A1A4B1DC44DFF00E964CA /* pop.wav in Resources */,
 				B54A1A471DC44DFF00E964CA /* ding.wav in Resources */,
 				B54A1A4A1DC44DFF00E964CA /* hitGround.wav in Resources */,
 				B54A1A361DC44DFF00E964CA /* backgrounds.atlas in Resources */,
-				B54A1A391DC44DFF00E964CA /* icon_180.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +533,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBird;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -559,6 +547,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBird;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -571,6 +560,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrazyFlyBird.app/CrazyFlyBird";
 			};
 			name = Debug;
@@ -583,6 +573,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrazyFlyBird.app/CrazyFlyBird";
 			};
 			name = Release;
@@ -595,6 +586,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = CrazyFlyBird;
 			};
 			name = Debug;
@@ -606,6 +598,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ben.CrazyFlyBirdUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = CrazyFlyBird;
 			};
 			name = Release;
