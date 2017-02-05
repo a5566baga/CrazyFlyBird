@@ -43,7 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let kUpSpeed:CGFloat = 400.0
     var normalSpeed = CGPoint.zero
     
-//    底部障碍的倍数
+//    bottomBlock的倍数
     let kBottomMinNum:CGFloat = 0.1
     let kBottomMaxNum:CGFloat = 0.6
     let kLackNum:CGFloat = 3.5
@@ -85,7 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(worldNode)
         addChild(sounds)
-//        切换到lesson状态()
+//        changeLessonStatus()
         changeMainMenu()
     }
 //    MARK: 设置内容相关
@@ -273,70 +273,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return obstructionView
     }
     
-    func 生成障碍() -> Void {
-        let 底部障碍 = initObstructionView("CactusBottom")
-        let 起始X坐标 = self.size.width + 底部障碍.size.width/2
+    func createBlock() -> Void {
+        let bottomBlock = initObstructionView("CactusBottom")
+        let startXPos = self.size.width + bottomBlock.size.width/2
         
-        let Y坐标最小值 = (gamingStartPoint - 底部障碍.size.height/2) + gamingHeight * kBottomMinNum
-        let Y坐标最大值 = (gamingStartPoint - 底部障碍.size.height/2) + gamingHeight * kBottomMaxNum
+        let YPosMin = (gamingStartPoint - bottomBlock.size.height/2) + gamingHeight * kBottomMinNum
+        let YPosMax = (gamingStartPoint - bottomBlock.size.height/2) + gamingHeight * kBottomMaxNum
         
-        底部障碍.position = CGPointMake(起始X坐标, CGFloat.random(min: Y坐标最小值, max: Y坐标最大值))
-        底部障碍.name = "底部障碍"
-        worldNode.addChild(底部障碍)
+        bottomBlock.position = CGPointMake(startXPos, CGFloat.random(min: YPosMin, max: YPosMax))
+        bottomBlock.name = "bottomBlock"
+        worldNode.addChild(bottomBlock)
         
-        let 顶部障碍 = initObstructionView("CactusTop")
-        顶部障碍.zRotation = CGFloat(180).degreesToRadians()
-        顶部障碍.position = CGPoint(x: 起始X坐标, y: 底部障碍.position.y + 底部障碍.size.height/2 + 顶部障碍.size.height/2 + mainUser.size.height * kLackNum)
-        顶部障碍.name = "顶部障碍"
-        worldNode.addChild(顶部障碍)
+        let TopBlock = initObstructionView("CactusTop")
+        TopBlock.zRotation = CGFloat(180).degreesToRadians()
+        TopBlock.position = CGPoint(x: startXPos, y: bottomBlock.position.y + bottomBlock.size.height/2 + TopBlock.size.height/2 + mainUser.size.height * kLackNum)
+        TopBlock.name = "TopBlock"
+        worldNode.addChild(TopBlock)
         
-        let X移动距离 = -(size.width + 底部障碍.size.width)
-        let 移动持续时间 = X移动距离 / kfloorViewMoveNormalSpeed
-        let 移动的队列 = SKAction.sequence([
-            SKAction.moveByX(X移动距离, y: 0, duration: NSTimeInterval(移动持续时间)),
+        let moveXDistance = -(size.width + bottomBlock.size.width)
+        let moveDuringTime = moveXDistance / kfloorViewMoveNormalSpeed
+        let moveQueue = SKAction.sequence([
+            SKAction.moveByX(moveXDistance, y: 0, duration: NSTimeInterval(moveDuringTime)),
             SKAction.removeFromParent()
             ])
         
-        底部障碍.runAction(移动的队列)
-        顶部障碍.runAction(移动的队列)
+        bottomBlock.runAction(moveQueue)
+        TopBlock.runAction(moveQueue)
         
     }
     
-    func noView限重生障碍() -> Void {
-        let 首次延迟 = SKAction.waitForDuration(kFirstTimeSec)
-        let 重生障碍 = SKAction.runBlock(生成障碍)
-        let 每次的重生间隔 = SKAction.waitForDuration(kEveryTimeSec)
-        let 重生的动作队列 = SKAction.sequence([重生障碍, 每次的重生间隔])
-        let noView限重生 = SKAction.repeatActionForever(重生的动作队列)
-        let 总的队列 = SKAction.sequence([首次延迟, noView限重生])
-        runAction(总的队列, withKey: "重生")
+    func noViewRelifeBlock() -> Void {
+        let firstDuring = SKAction.waitForDuration(kFirstTimeSec)
+        let reLifeBlock = SKAction.runBlock(createBlock)
+        let eveRelifeTime = SKAction.waitForDuration(kEveryTimeSec)
+        let eveRelifeQueue = SKAction.sequence([reLifeBlock, eveRelifeTime])
+        let noViewRelife = SKAction.repeatActionForever(eveRelifeQueue)
+        let totalQueue = SKAction.sequence([firstDuring, noViewRelife])
+        runAction(totalQueue, withKey: "reBorn")
     }
     
-    func 停止生成障碍() -> Void {
-        removeActionForKey("重生")
-        worldNode.enumerateChildNodesWithName("顶部障碍", usingBlock: { 匹配单位, _ in
-            匹配单位.removeAllActions()
+    func stopCreateBlock() -> Void {
+        removeActionForKey("reBorn")
+        worldNode.enumerateChildNodesWithName("TopBlock", usingBlock: { marthUnit, _ in
+            marthUnit.removeAllActions()
         })
-        worldNode.enumerateChildNodesWithName("底部障碍", usingBlock: { 匹配单位, _ in
-            匹配单位.removeAllActions()
+        worldNode.enumerateChildNodesWithName("bottomBlock", usingBlock: { marthUnit, _ in
+            marthUnit.removeAllActions()
         })
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
 //        print("\(NowGameStatus)")
-        guard let 点击 = touches.first else{
+        guard let clickTap = touches.first else{
             return
         }
-        let 点击位置 = 点击.locationInNode(self)
+        let clickTapPos = clickTap.locationInNode(self)
         
         switch NowGameStatus {
         case .mainMenu:
-            if 点击位置.y > size.height * 0.4 || 点击位置.y < size.height * 0.6 {
-                切换到lesson状态()
+            if clickTapPos.y > size.height * 0.4 || clickTapPos.y < size.height * 0.6 {
+                changeLessonStatus()
             }
             break
         case .lesson:
-            切换到GameStatus()
+            changeGameStatus()
             break
         case .showScore:
             break
@@ -344,8 +344,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             mainUserFlying()
             break
         case .gameOver:
-            if 点击位置.x < size.width/2 {
-                切换到新gaming()
+            if clickTapPos.x < size.width/2 {
+                changeNewGaming()
             }
             break
         case .fallDown:
@@ -363,10 +363,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         lastUpdateTime = currentTime
         
-//        更新mainUser()
-//        更新foreView()
-//        撞击obstructionView检查()
-//        print("\(NowGameStatus)")
+
         switch NowGameStatus {
         case .mainMenu:
             settingMainMenu()
@@ -376,36 +373,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case .showScore:
             break
         case .gaming:
-            更新mainUser()
-            更新foreView()
-            撞击obstructionView检查()
-            撞击floorView检查()
-            更新得分()
+            updateMainUser()
+            updateForeView()
+            knockObstructionViewCheck()
+            knockFloorViewCheck()
+            updateScores()
             break
         case .gameOver:
             break
         case .fallDown:
-            更新mainUser()
-            撞击floorView检查()
+            updateMainUser()
+            knockFloorViewCheck()
             break
         }
     }
     
 
-    func 更新mainUser() -> Void {
-        let 加normalSpeed = CGPoint(x: 0, y: kGravity)
-        normalSpeed = normalSpeed + 加normalSpeed * CGFloat(dt)
+    func updateMainUser() -> Void {
+        let addNormalSpeed = CGPoint(x: 0, y: kGravity)
+        normalSpeed = normalSpeed + addNormalSpeed * CGFloat(dt)
         mainUser.position = mainUser.position + normalSpeed * CGFloat(dt)
-//        让mainUser停在floorView上
+//        让玩家停留在地板上
         if mainUser.position.y - mainUser.size.height/2 < gamingStartPoint {
             mainUser.position = CGPoint(x: mainUser.position.x, y: mainUser.size.height/2 + gamingStartPoint)
         }
     }
-    func 更新foreView() -> Void {
-        worldNode.enumerateChildNodesWithName("foreView") {匹配单位, _ in
-            if let foreView = 匹配单位 as? SKSpriteNode{
-                let floorView移动normalSpeed = CGPoint(x: self.kfloorViewMoveNormalSpeed, y: 0)
-                foreView.position += floorView移动normalSpeed * CGFloat(self.dt)
+    func updateForeView() -> Void {
+        worldNode.enumerateChildNodesWithName("foreView") {marthUnit, _ in
+            if let foreView = marthUnit as? SKSpriteNode{
+                let floorViewMoveNormalSpeed = CGPoint(x: self.kfloorViewMoveNormalSpeed, y: 0)
+                foreView.position += floorViewMoveNormalSpeed * CGFloat(self.dt)
                 
                 if foreView.position.x < -foreView.size.width{
                     foreView.position += CGPoint(x: foreView.size.width * CGFloat(self.kforeViewPageNum), y: 0)
@@ -414,29 +411,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func 撞击obstructionView检查() -> Void {
+    func knockObstructionViewCheck() -> Void {
         if knockObstructionView {
             knockObstructionView = false
-            切换到fallDown状态()
+            changeFallDownStatus()
         }
     }
     
-    func 撞击floorView检查() -> Void {
+    func knockFloorViewCheck() -> Void {
         if knockFloorView {
             knockFloorView = false
             normalSpeed = CGPoint.zero
             mainUser.zRotation = CGFloat(-60).degreesToRadians()
             mainUser.position = CGPoint(x: mainUser.position.x, y: gamingStartPoint + mainUser.size.width*0.5)
             runAction(sounds.hitAct)
-            切换到showScore状态()
+            changeShowScoreStatus()
         }
     }
     
-    func 更新得分() -> Void {
-        worldNode.enumerateChildNodesWithName("顶部障碍", usingBlock: { 匹配单位, _ in
-            if let obstructionView = 匹配单位 as? SKSpriteNode{
-                if let 已通过 = obstructionView.userData?["已通过"] as? NSNumber{
-                    if 已通过.boolValue{
+    func updateScores() -> Void {
+        worldNode.enumerateChildNodesWithName("TopBlock", usingBlock: { marthUnit, _ in
+            if let obstructionView = marthUnit as? SKSpriteNode{
+                if let passed = obstructionView.userData?["passed"] as? NSNumber{
+                    if passed.boolValue{
                         return
                     }
                 }
@@ -444,14 +441,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.nowScore += 1
                     self.resultLabel.text = "\(self.nowScore)"
                     self.runAction(self.sounds.coinAct)
-                    obstructionView.userData?["已通过"] = NSNumber(bool: true)
+                    obstructionView.userData?["passed"] = NSNumber(bool: true)
                 }
             }
         })
     }
     
     
-//    MARK: GameStatus方法
+//    MARK: 游戏状态方法
     func changeMainMenu() -> Void {
         NowGameStatus = .mainMenu
         settingBgView()
@@ -461,12 +458,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         settingMainMenu()
     }
     
-    func 切换到lesson状态() -> Void {
+    func changeLessonStatus() -> Void {
         runAction(sounds.popAct)
         NowGameStatus = .lesson
         worldNode.enumerateChildNodesWithName("mainMenu", usingBlock: {
-            匹配单位, _ in
-            匹配单位.runAction(SKAction.sequence([
+            marthUnit, _ in
+            marthUnit.runAction(SKAction.sequence([
                 SKAction.fadeInWithDuration(0.05),
                 SKAction.removeFromParent()
                 ]))
@@ -475,159 +472,159 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         settingLesson()
     }
     
-    func 切换到GameStatus() -> Void {
+    func changeGameStatus() -> Void {
         NowGameStatus = .gaming
         worldNode.enumerateChildNodesWithName("lesson", usingBlock: {
-            匹配单位, _ in
-            匹配单位.runAction(SKAction.sequence([
+            marthUnit, _ in
+            marthUnit.runAction(SKAction.sequence([
                 SKAction.fadeInWithDuration(0.05),
                 SKAction.removeFromParent()
                 ]))
         })
         mainUser.removeActionForKey("startFly")
-        noView限重生障碍()
+        noViewRelifeBlock()
         mainUserFlying()
     }
     
-    func 切换到新gaming() -> Void {
+    func changeNewGaming() -> Void {
         runAction(sounds.popAct)
-        let 新的gaming场景 = GameScene.init(size: size)
-        let 切换特效 = SKTransition.fadeWithColor(SKColor.blackColor(), duration: 0.05)
-        view?.presentScene(新的gaming场景, transition: 切换特效)
+        let newGamingSence = GameScene.init(size: size)
+        let changeEffects = SKTransition.fadeWithColor(SKColor.blackColor(), duration: 0.05)
+        view?.presentScene(newGamingSence, transition: changeEffects)
     }
     
-    func 切换到fallDown状态() ->  Void{
+    func changeFallDownStatus() ->  Void{
         NowGameStatus = .fallDown
         runAction(SKAction.sequence([sounds.dingAct,
             SKAction.waitForDuration(0.1), sounds.fallAct]))
         mainUser.removeAllActions()
-        停止生成障碍()
+        stopCreateBlock()
     }
     
-    func 切换到showScore状态() -> Void {
+    func changeShowScoreStatus() -> Void {
         NowGameStatus = .showScore
         mainUser.removeAllActions()
-        停止生成障碍()
-        设置计分板()
+        stopCreateBlock()
+        settingCountsBoard()
     }
     
-    func 切换GameStatus() -> Void {
+    func changeNowGameStatus() -> Void {
         NowGameStatus = .gameOver
     }
     
 //    MARK:分数处理
-    func 最高分() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey("最高分")
+    func highScore() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey("highScore")
     }
-    func 设置最高分(最高分:Int) -> Void {
-        NSUserDefaults.standardUserDefaults().setInteger(最高分, forKey: "最高分")
+    func settingHighScore(highScore:Int) -> Void {
+        NSUserDefaults.standardUserDefaults().setInteger(highScore, forKey: "highScore")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
-    func 设置计分板() -> Void {
-//        print("\(最高分())")
-        if nowScore > 最高分() {
-            设置最高分(nowScore)
+    func settingCountsBoard() -> Void {
+//        print("\(highScore())")
+        if nowScore > highScore() {
+            settingHighScore(nowScore)
         }
-        let 计分板 = SKSpriteNode(imageNamed: "Scorecard")
-        计分板.position = CGPoint(x: size.width/2, y: size.height/2)
-        计分板.zPosition = sceneView.UI.rawValue
-        worldNode.addChild(计分板)
+        let countsBoard = SKSpriteNode(imageNamed: "Scorecard")
+        countsBoard.position = CGPoint(x: size.width/2, y: size.height/2)
+        countsBoard.zPosition = sceneView.UI.rawValue
+        worldNode.addChild(countsBoard)
         
-        let nowScore标签 = SKLabelNode(fontNamed: kFontName)
-        nowScore标签.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
-        nowScore标签.position = CGPoint(x: -计分板.size.width/4, y: -计分板.size.height/3)
-        nowScore标签.text = "\(nowScore)"
-        nowScore标签.zPosition = sceneView.UI.rawValue
-        计分板.addChild(nowScore标签)
+        let nowScoreLabel = SKLabelNode(fontNamed: kFontName)
+        nowScoreLabel.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        nowScoreLabel.position = CGPoint(x: -countsBoard.size.width/4, y: -countsBoard.size.height/3)
+        nowScoreLabel.text = "\(nowScore)"
+        nowScoreLabel.zPosition = sceneView.UI.rawValue
+        countsBoard.addChild(nowScoreLabel)
         
-        let 对高分标签 = SKLabelNode(fontNamed: kFontName)
-        对高分标签.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
-        对高分标签.position = CGPoint(x: 计分板.size.width/4, y: -计分板.size.height/3)
-        对高分标签.text = "\(最高分())"
-        对高分标签.zPosition = sceneView.UI.rawValue
-        计分板.addChild(对高分标签)
+        let topScoreLabel = SKLabelNode(fontNamed: kFontName)
+        topScoreLabel.color = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        topScoreLabel.position = CGPoint(x: countsBoard.size.width/4, y: -countsBoard.size.height/3)
+        topScoreLabel.text = "\(highScore())"
+        topScoreLabel.zPosition = sceneView.UI.rawValue
+        countsBoard.addChild(topScoreLabel)
         
         let gaminggameOver = SKSpriteNode(imageNamed: "GameOver")
-        gaminggameOver.position = CGPoint(x: size.width/2, y: size.height/2 + 计分板.size.height/2 + 2*kTopLeft + gaminggameOver.size.height/2)
+        gaminggameOver.position = CGPoint(x: size.width/2, y: size.height/2 + countsBoard.size.height/2 + 2*kTopLeft + gaminggameOver.size.height/2)
         gaminggameOver.zPosition = sceneView.UI.rawValue
         worldNode.addChild(gaminggameOver)
         
-        let ok按钮 = SKSpriteNode(imageNamed: "Button")
-        ok按钮.position = CGPoint(x: size.width/4, y: size.height/2 - 计分板.size.height/2 - kTopLeft - ok按钮.size.width/2)
-        ok按钮.zPosition = sceneView.UI.rawValue
-        worldNode.addChild(ok按钮)
+        let okButton = SKSpriteNode(imageNamed: "Button")
+        okButton.position = CGPoint(x: size.width/4, y: size.height/2 - countsBoard.size.height/2 - kTopLeft - okButton.size.width/2)
+        okButton.zPosition = sceneView.UI.rawValue
+        worldNode.addChild(okButton)
         
         let OK = SKSpriteNode(imageNamed: "OK")
         OK.position = CGPoint.zero
         OK.zPosition = sceneView.UI.rawValue
-        ok按钮.addChild(OK)
+        okButton.addChild(OK)
         
-        let 分享按钮 = SKSpriteNode(imageNamed: "ButtonRight")
-        分享按钮.position = CGPoint(x: size.width/4*3, y: size.height/2 - 计分板.size.height/2 - kTopLeft - ok按钮.size.width/2)
-        分享按钮.zPosition = sceneView.UI.rawValue
-        worldNode.addChild(分享按钮)
+        let shareButton = SKSpriteNode(imageNamed: "ButtonRight")
+        shareButton.position = CGPoint(x: size.width/4*3, y: size.height/2 - countsBoard.size.height/2 - kTopLeft - okButton.size.width/2)
+        shareButton.zPosition = sceneView.UI.rawValue
+        worldNode.addChild(shareButton)
         
-        let 分享 = SKSpriteNode(imageNamed: "Share")
-        分享.position = CGPoint.zero
-        分享.zPosition = sceneView.UI.rawValue
-        分享按钮.addChild(分享)
+        let share = SKSpriteNode(imageNamed: "Share")
+        share.position = CGPoint.zero
+        share.zPosition = sceneView.UI.rawValue
+        shareButton.addChild(share)
         
         gaminggameOver.setScale(0)
         gaminggameOver.alpha = 0
-        let 动画组 = SKAction.group([
+        let animalArray = SKAction.group([
             SKAction.fadeInWithDuration(kDelayTimeSec),
             SKAction.scaleTo(1.0, duration: kDelayTimeSec)
             ])
-        动画组.timingMode = .EaseInEaseOut
+        animalArray.timingMode = .EaseInEaseOut
         gaminggameOver.runAction(SKAction.sequence([
             SKAction.waitForDuration(kDelayTimeSec),
-            动画组
+            animalArray
             ]))
         
-        计分板.position = CGPoint(x: size.width/2, y: -计分板.size.height/2)
-        let upMove画 = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: kDelayTimeSec)
-        upMove画.timingMode = .EaseInEaseOut
-        计分板.runAction(SKAction.sequence([
+        countsBoard.position = CGPoint(x: size.width/2, y: -countsBoard.size.height/2)
+        let upMoveAnim = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: kDelayTimeSec)
+        upMoveAnim.timingMode = .EaseInEaseOut
+        countsBoard.runAction(SKAction.sequence([
             SKAction.waitForDuration(kDelayTimeSec * 2),
-            upMove画
+            upMoveAnim
             ]))
         
-        ok按钮.alpha = 0
-        分享按钮.alpha = 0
-        let 渐变动画 = SKAction.sequence([
+        okButton.alpha = 0
+        shareButton.alpha = 0
+        let gradientAnim = SKAction.sequence([
             SKAction.waitForDuration(kDelayTimeSec * 3),
             SKAction.fadeInWithDuration(kDelayTimeSec)
             ])
-        ok按钮.runAction(渐变动画)
-        分享按钮.runAction(渐变动画)
+        okButton.runAction(gradientAnim)
+        shareButton.runAction(gradientAnim)
         
-        let 声音特效 = SKAction.sequence([
+        let soundsEffect = SKAction.sequence([
             SKAction.waitForDuration(kDelayTimeSec),
             sounds.popAct,
             SKAction.waitForDuration(kDelayTimeSec),
             sounds.popAct,
             SKAction.waitForDuration(kDelayTimeSec),
             sounds.popAct,
-            SKAction.runBlock(切换GameStatus)
+            SKAction.runBlock(changeNowGameStatus)
             ])
         
-        runAction(声音特效)
+        runAction(soundsEffect)
     }
     
 //    碰撞处理
-    func didBeginContact(碰撞双方: SKPhysicsContact) {
-        let 被撞对象 = 碰撞双方.bodyA.categoryBitMask == PhysicsView.NPC ? 碰撞双方.bodyB : 碰撞双方.bodyA
-        if 被撞对象.categoryBitMask == PhysicsView.floorView {
+    func didBeginContact(kickBoth: SKPhysicsContact) {
+        let beKicked = kickBoth.bodyA.categoryBitMask == PhysicsView.NPC ? kickBoth.bodyB : kickBoth.bodyA
+        if beKicked.categoryBitMask == PhysicsView.floorView {
             knockFloorView = true
         }
-        if 被撞对象.categoryBitMask == PhysicsView.obstructionView {
+        if beKicked.categoryBitMask == PhysicsView.obstructionView {
             knockObstructionView = true
         }
         
     }
     
 //    MARK:跳转到个人Git部分
-    func 网页() -> Void {
+    func netWorking() -> Void {
         let net = NSURL(string: "https://github.com/a5566baga/CrazyFlyBird")
         UIApplication.sharedApplication().openURL(net!)
     }
