@@ -13,18 +13,18 @@ class GameViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        if let sk视图 = self.view as? SKView  {
-            if sk视图.scene == nil {
+        if let skView = self.view as? SKView  {
+            if skView.scene == nil {
 //                创建视图
-                let 长宽比 = sk视图.bounds.size.height / sk视图.bounds.size.width
-                let 场景 = GameScene(size: CGSize(width: 320, height: 320 * 长宽比))
-                sk视图.showsFPS = false //显示帧数
-                sk视图.showsPhysics = false //显示物理模型边框
-                sk视图.showsNodeCount = false //显示节点数
-                sk视图.ignoresSiblingOrder = true //忽略元素的添加顺序
-                场景.scaleMode = .AspectFill //场景的拉伸是等比例缩放
+                let lenAndWidth = skView.bounds.size.height / skView.bounds.size.width
+                let scence = GameScene(size: CGSize(width: 320, height: 320 * lenAndWidth))
+                skView.showsFPS = false //显示帧数
+                skView.showsPhysics = false //显示物理模型边框
+                skView.showsNodeCount = false //显示节点数
+                skView.ignoresSiblingOrder = true //忽略元素的添加顺序
+                scence.scaleMode = .AspectFill //scence的拉伸是等比例缩放
                 
-                sk视图.presentScene(场景) //添加到视图中
+                skView.presentScene(scence) //添加到视图中
             }
         }
     }
